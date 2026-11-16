@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://b0bkermr3l7t3"]
+
+[ext_resource type="Script" uid="uid://h0w7nkye7v5a" path="res://scripts/node_3d.gd" id="1_a6664"]
+[ext_resource type="PackedScene" uid="uid://m3bx8wbxkiqn" path="res://scenes/herz.tscn" id="2_10v3s"]
+[ext_resource type="PackedScene" uid="uid://1l80nqpq6c5k" path="res://scenes/jump_boost.tscn" id="3_cptob"]
+[ext_resource type="PackedScene" uid="uid://cebp8jjymfspt" path="res://scenes/bullit.tscn" id="4_b2yaj"]
+[ext_resource type="Texture2D" uid="uid://bpe6hdv0kc44a" path="res://texture/243.jpg" id="5_q712h"]
+[ext_resource type="Texture2D" uid="uid://bk8bg1nnlanv3" path="res://texture/243_norm.jpg" id="6_1enmr"]
+[ext_resource type="PackedScene" uid="uid://dnyvj3dirahq" path="res://scenes/character_body_3d.tscn" id="7_10v3s"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_r3fl7"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_jka67"]
+sky_material = SubResource("ProceduralSkyMaterial_r3fl7")
+
+[sub_resource type="Environment" id="Environment_i5arm"]
+background_mode = 2
+sky = SubResource("Sky_jka67")
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wc5p8"]
+albedo_texture = ExtResource("5_q712h")
+roughness = 0.45
+normal_enabled = true
+normal_scale = 4.1
+normal_texture = ExtResource("6_1enmr")
+uv1_scale = Vector3(4, 4, 4)
+
+[node name="main" type="Node3D" unique_id=444592695]
+script = ExtResource("1_a6664")
+herz = ExtResource("2_10v3s")
+jump = ExtResource("3_cptob")
+bullit = ExtResource("4_b2yaj")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=726129182]
+environment = SubResource("Environment_i5arm")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1465227907]
+transform = Transform3D(-0.86891645, -0.243984, 0.43064636, -0.07295274, 0.92369294, 0.37612414, -0.4895532, 0.29540363, -0.8204113, 0, 0, 0)
+shadow_enabled = true
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." unique_id=331234529]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 0.29171324, -3.5, 1.5)
+material_override = SubResource("StandardMaterial3D_wc5p8")
+use_collision = true
+size = Vector3(11, 8, 10)
+
+[node name="Control" type="Control" parent="." unique_id=1508973493]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Button" type="Button" parent="Control" unique_id=1487708893]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -202.25
+offset_top = -73.25
+offset_right = 202.25
+offset_bottom = 73.25
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+mouse_behavior_recursive = 2
+theme_override_font_sizes/font_size = 48
+text = "neustarten"
+
+[node name="Label" type="Label" parent="Control" unique_id=1855184870]
+layout_mode = 0
+offset_right = 557.0
+offset_bottom = 171.0
+theme_override_font_sizes/font_size = 74
+text = "chara"
+
+[node name="player" parent="." unique_id=904628540 instance=ExtResource("7_10v3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4722116, 4.4362044)
+
+[node name="herz" parent="." unique_id=1343308497 instance=ExtResource("2_10v3s")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.9336786, 0.6363697, 1.7143307)
+
+[node name="jumpboost" parent="." unique_id=786545697 instance=ExtResource("3_cptob")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.7459967, 0.58459616, 1.7079506)
+
+[node name="bullit" parent="." unique_id=1237972162 instance=ExtResource("4_b2yaj")]
+transform = Transform3D(1.9106855e-15, -4.371139e-08, -1, -1, -4.371139e-08, 0, -4.371139e-08, 1, -4.371139e-08, 2.0389903, 1.194289, -6.9484873)
+
+[connection signal="pressed" from="Control/Button" to="." method="_on_button_pressed"]

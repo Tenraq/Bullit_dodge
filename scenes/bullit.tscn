@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://cebp8jjymfspt"]
+
+[ext_resource type="Script" uid="uid://6dxn046hlell" path="res://scripts/bullit.gd" id="1_tp432"]
+[ext_resource type="Texture2D" uid="uid://bwrengpdi475j" path="res://mdl/smoke.png" id="2_k05xx"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_h84av"]
+top_radius = 0.0
+bottom_radius = 0.31
+radial_segments = 8
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_4taav"]
+points = PackedVector3Array(0.43647996, -1.0158731, 0.30942434, -0.5158731, -1.0158731, 0.1507843, 0.0237287, 1.0158731, 0.0237287, 0.1507843, -1.0158731, -0.5158731, -0.16649579, -0.9206101, 0.4999565, 0.4999565, -0.9840524, -0.19828533, -0.29344884, -0.9840524, -0.45219144, -0.039542735, 0.9840524, -0.039542735, 0.18247129, -0.9522318, 0.4999565, -0.42050445, -1.0158731, 0.34121388, 0.37300342, -0.9522318, -0.3887149, 0.4999565, -0.8569689, 0.08720523, -0.48398098, -0.9522318, -0.22997232, -0.039542735, 0.9206101, 0.055518236, 0.055518236, 0.9206101, -0.039542735, -0.1348088, -0.9522318, -0.5158731, 0.0237287, -0.9840524, 0.53174603, -0.5158731, -0.9206101, -0.071229726, 0.37300342, -0.7300842, 0.30942434, -0.35702792, -0.9522318, 0.4046904, -0.45219144, -1.0158731, -0.29344884, 0.08720523, -0.9206101, -0.5158731, 0.21426083, -0.9206101, -0.48398098, 0.055518236, 0.8887895, 0.055518236, -0.42050445, -0.9206101, -0.32523838, -0.45219144, -0.9206101, 0.27773735, -0.48398098, -0.79352653, 0.08720523, 0.30942434, -0.9522318, 0.43647996, 0.4999565, -0.9522318, 0.18247129, 0.4999565, -0.8569689, -0.071229726, 0.4999565, -1.0158731, -0.19828533, -0.19828533, -1.0158731, 0.4999565)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_g4v7s"]
+initial_velocity_max = 12.259999
+gravity = Vector3(0, -9, 0)
+collision_mode = 1
+collision_friction = 0.0
+collision_bounce = 0.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_57qmd"]
+transparency = 1
+albedo_color = Color(1, 0, 0, 1)
+albedo_texture = ExtResource("2_k05xx")
+billboard_mode = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_yf5fn"]
+material = SubResource("StandardMaterial3D_57qmd")
+
+[node name="bullit" type="Node3D" unique_id=1237972162]
+transform = Transform3D(1.9106855e-15, -4.371139e-08, -1, -1, -4.371139e-08, 0, -4.371139e-08, 1, -4.371139e-08, 0, 0, 0)
+script = ExtResource("1_tp432")
+
+[node name="mesh" type="MeshInstance3D" parent="." unique_id=938139335]
+mesh = SubResource("CylinderMesh_h84av")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1334025635]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, -2.1975433e-08, 0.5027393, -2.1975433e-08)
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Area3D" unique_id=32956636]
+shape = SubResource("ConvexPolygonShape3D_4taav")
+
+[node name="broken" type="GPUParticles3D" parent="." unique_id=71553612]
+process_mode = 3
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.40924212, -0.3583323, 1.56632e-08)
+emitting = false
+amount = 46
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_g4v7s")
+draw_pass_1 = SubResource("QuadMesh_yf5fn")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

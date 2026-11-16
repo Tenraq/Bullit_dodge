@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://m3bx8wbxkiqn"]
+
+[ext_resource type="PackedScene" uid="uid://cxdeq3tyamshc" path="res://mdl/herz.glb" id="1_2y4ie"]
+[ext_resource type="Script" uid="uid://cxjk1lwqrt05t" path="res://scripts/herz.gd" id="1_17tbt"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_bcvp6"]
+
+[sub_resource type="Animation" id="Animation_2y4ie"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("herz2:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_17tbt"]
+resource_name = "herz"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("herz2:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -3.1415927, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_y0gik"]
+_data = {
+&"RESET": SubResource("Animation_2y4ie"),
+&"herz": SubResource("Animation_17tbt")
+}
+
+[node name="herz" type="Area3D" unique_id=1343308497]
+script = ExtResource("1_17tbt")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=941459122]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.59208083, 0)
+shape = SubResource("SphereShape3D_bcvp6")
+
+[node name="herz2" parent="." unique_id=347989673 instance=ExtResource("1_2y4ie")]
+transform = Transform3D(0.565, 0, 0, 0, 0.565, 0, 0, 0, 0.565, 0, 0.45134383, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=755249263]
+libraries/ = SubResource("AnimationLibrary_y0gik")
+autoplay = &"herz"
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1999931781]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3971451, 0)
+light_color = Color(0.8666667, 0.03529412, 0, 1)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

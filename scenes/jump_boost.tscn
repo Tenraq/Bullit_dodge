@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://1l80nqpq6c5k"]
+
+[ext_resource type="PackedScene" uid="uid://bxykauf36yhd1" path="res://scenes/pfeil_2.tscn" id="1_0l0au"]
+[ext_resource type="Script" uid="uid://db7gd6ld87oy" path="res://scripts/jump_boost.gd" id="1_k4gpv"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_g4v7s"]
+radius = 0.37402973
+
+[sub_resource type="Animation" id="Animation_k4gpv"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("pfeil2:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_0l0au"]
+resource_name = "pfeil"
+length = 0.56666666
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("pfeil2:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.56666666),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, -3.1415927, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_k4gpv"]
+_data = {
+&"RESET": SubResource("Animation_k4gpv"),
+&"pfeil": SubResource("Animation_0l0au")
+}
+
+[node name="jumpboost" type="Area3D" unique_id=786545697]
+script = ExtResource("1_k4gpv")
+
+[node name="pfeil2" parent="." unique_id=1484079480 instance=ExtResource("1_0l0au")]
+transform = Transform3D(0.48, 0, 0, 0, 0.48, 0, 0, 0, 0.48, 0, 0.42107725, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=326381009]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6443101, 0)
+shape = SubResource("SphereShape3D_g4v7s")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=710958276]
+libraries/ = SubResource("AnimationLibrary_k4gpv")
+autoplay = &"pfeil"
+
+[node name="OmniLight3D" type="OmniLight3D" parent="." unique_id=1621781300]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6228984, 0)
+light_color = Color(0, 1, 0, 1)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
